@@ -1,0 +1,58 @@
+import pygame
+import sys
+
+# Inicializar Pygame
+pygame.init()
+
+# Definir colores
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+
+# Definir parámetros de la ventana
+WIDTH, HEIGHT = 800, 600
+FPS = 60
+
+# Definir parámetros del cuadrado
+square_size = 50
+square_pos = [WIDTH // 2 - square_size // 2, HEIGHT // 2 - square_size // 2]
+square_speed = 5
+
+# Inicializar la ventana
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Cuadrado Reactivo al Input")
+clock = pygame.time.Clock()
+
+# Bucle principal del juego
+running = True
+while running:
+    clock.tick(FPS)
+    
+    # Manejo de eventos
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    # Manejo de input del usuario
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        square_pos[0] -= square_speed
+    if keys[pygame.K_RIGHT]:
+        square_pos[0] += square_speed
+    if keys[pygame.K_UP]:
+        square_pos[1] -= square_speed
+    if keys[pygame.K_DOWN]:
+        square_pos[1] += square_speed
+    
+    # Limitar las coordenadas del cuadrado dentro de la pantalla
+    square_pos[0] = max(0, min(WIDTH - square_size, square_pos[0]))
+    square_pos[1] = max(0, min(HEIGHT - square_size, square_pos[1]))
+    
+    # Dibujar el cuadrado y actualizar la pantalla
+    screen.fill(WHITE)
+    pygame.draw.rect(screen, RED, (square_pos[0], square_pos[1], square_size, square_size))
+    pygame.display.flip()
+
+# Salir del juego
+pygame.quit()
+sys.exit()
